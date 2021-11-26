@@ -17,7 +17,9 @@
     "build:watch": "tsc -w --pretty",
     "dev": "cd dist && nodemon runner.js",
     "prettier": "prettier -c src && prettier-package-json -l ./package.json",
-    "prettier:fix": "prettier -w src && prettier-package-json --write ./package.json"
+    "prettier:fix": "prettier -w src && prettier-package-json --write ./package.json",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "readline-sync": "1.4.10"

@@ -53,8 +53,36 @@ export class Scanner {
       case '*':
         this.addToken(TokenType.STAR)
         break
+      case '!':
+        this.addToken(this.match('=') ? TokenType.BANG_EQUAL : TokenType.BANG)
+        break
+      case '=':
+        this.addToken(this.match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL)
+        break
+      case '<':
+        this.addToken(this.match('=') ? TokenType.LESS_EQUAL : TokenType.LESS)
+        break
+      case '>':
+        this.addToken(this.match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER)
+        break
+      case '/':
+        if (this.match('/')) {
+          // A comment goes until the end of the line.
+          while (this.peek() != '\n' && !this.isAtEnd()) this.advance()
+        } else {
+          this.addToken(TokenType.SLASH)
+        }
+        break
+      case ' ':
+      case '\r':
+      case '\t':
+        // Ignore whitespace.
+        break
+      case '\n':
+        this.line++
+        break
       default:
-        Lox.error(this.line, 'Unexpected character.')
+        Lox.error(this.line, `Unexpected character: '${c}'`)
         break
     }
   }
@@ -64,11 +92,23 @@ export class Scanner {
     this.tokens.push(new Token(type, text, literal, this.line))
   }
 
+  private isAtEnd(): boolean {
+    return this.current >= this.source.length
+  }
+
   private advance(): string {
     return this.source.charAt(this.current++)
   }
 
-  private isAtEnd(): boolean {
-    return this.current > this.source.length
+  private peek(): string {
+    return this.isAtEnd() ? '\0' : this.source.charAt(this.current)
+  }
+
+  private match(expected: string): boolean {
+    if (this.peek() !== expected) {
+      return false
+    }
+    this.current++
+    return true
   }
 }
