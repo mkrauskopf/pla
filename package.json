@@ -15,7 +15,7 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w --pretty",
-    "dev": "cd dist && nodemon lox.js",
+    "dev": "cd dist && nodemon runner.js",
     "prettier": "prettier -c src && prettier-package-json -l ./package.json",
     "prettier:fix": "prettier -w src && prettier-package-json --write ./package.json"
   },

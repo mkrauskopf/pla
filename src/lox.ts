@@ -57,6 +57,3 @@ export class Lox {
     Lox.hadError = true
   }
 }
-
-const lox = new Lox()
-lox.runProgram()
