@@ -1,6 +1,6 @@
-import { Lox } from './lox.js'
-import { Token } from './token.js'
-import { TokenType } from './tokenType.js'
+import { Lox } from './lox'
+import { Token } from './token'
+import { TokenType } from './tokenType'
 
 export class Scanner {
   private readonly tokens: Token[] = []

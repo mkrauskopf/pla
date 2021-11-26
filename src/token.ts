@@ -1,4 +1,4 @@
-import { TokenType } from './tokenType.js'
+import { TokenType } from './tokenType'
 
 export class Token {
   constructor(

@@ -12,7 +12,6 @@
   "bugs": {
     "url": "https://github.com/mkrauskopf/lox/issues"
   },
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w --pretty",
@@ -24,6 +23,7 @@
     "readline-sync": "1.4.10"
   },
   "devDependencies": {
+    "@tsconfig/node16": "1.0.2",
     "@types/jest": "27.0.3",
     "@types/readline-sync": "1.4.4",
     "import-sort-style-module": "6.0.0",

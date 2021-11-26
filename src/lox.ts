@@ -2,8 +2,8 @@ import fs from 'fs'
 
 import readline from 'readline-sync'
 
-import { Scanner } from './scanner.js'
-import { Token } from './token.js'
+import { Scanner } from './scanner'
+import { Token } from './token'
 
 const args = process.argv.slice(2)
 
