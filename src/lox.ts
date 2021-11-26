@@ -35,7 +35,8 @@ export class Lox {
     const scanner: Scanner = new Scanner(source)
     const tokens: Token[] = scanner.scanTokens()
 
-    tokens.forEach((token) => console.log('MK: token\n', token))
+    // TODO: temporary: remove once you get further
+    tokens.forEach((token) => console.log('token:', token))
   }
 
   runPrompt(): void {

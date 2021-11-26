@@ -67,7 +67,7 @@ export class Scanner {
         break
       case '/':
         if (this.match('/')) {
-          // A comment goes until the end of the line.
+          // The comment lexeme: goes until the end of the line.
           while (this.peek() != '\n' && !this.isAtEnd()) this.advance()
         } else {
           this.addToken(TokenType.SLASH)

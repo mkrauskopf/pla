@@ -1,1 +1,29 @@
-// nothing so far
+// This is a valid Lox source file for the current implementation. It is used for something like an End-to-End test.
+// It is not a valid one according to the final language specification yet.
+
+// Hello, I'm a comment.
+
+// Simple lexemes (valid as it is now)
+(
+)
+{
+}
+,
+.
+-
++
+;
+*
+!
+=
+<
+>
+
+// Double-characters lexemes
+!=
+==
+<=
+>=
+
+// String lexeme.
+"Some string."

@@ -1,3 +1,6 @@
+import fs from 'fs'
+import path from 'path'
+
 import { Lox } from '../lox'
 import { Scanner } from '../scanner'
 import { Token } from '../token'
@@ -17,32 +20,32 @@ describe('scanner', () => {
     expect(Lox.hadError).toBe(false)
   })
 
-  it('should scan empty string', () => {
+  it('should tokenize empty string', () => {
     expect(scanTokens('')).toStrictEqual([EOF_1])
   })
 
-  it('should scan one simple token', () => {
+  it('should tokenize one simple token', () => {
     expect(scanTokens('+')).toStrictEqual([new Token(TokenType.PLUS, '+', null, 1), EOF_1])
   })
 
-  it('should scan one compound token', () => {
+  it('should tokenize one compound token', () => {
     expect(scanTokens('!=')).toStrictEqual([new Token(TokenType.BANG_EQUAL, '!=', null, 1), EOF_1])
   })
 
-  it('should scan string', () => {
+  it('should tokenize string', () => {
     expect(scanTokens('"Hello World"')).toStrictEqual([
       new Token(TokenType.STRING, '"Hello World"', 'Hello World', 1),
       EOF_1,
     ])
   })
 
-  it('should scan multi-line string', () => {
+  it('should tokenize multi-line string', () => {
     const stringLexeme = 'Hello World\nWelcome in Lox!'
     const multiline = `"${stringLexeme}"`
     expect(scanTokens(multiline)).toStrictEqual([new Token(TokenType.STRING, multiline, stringLexeme, 2), eof(2)])
   })
 
-  it('should scan multi-line string and second line', () => {
+  it('should tokenize multi-line string and second line', () => {
     const stringLexeme = 'Hello World\nWelcome in Lox!'
     const multiline = `"${stringLexeme}"\n>=`
     expect(scanTokens(multiline)).toStrictEqual([
@@ -64,5 +67,13 @@ describe('scanner', () => {
     } finally {
       warn.mockRestore()
     }
+  })
+
+  describe('for more complex use cases', () => {
+    it('should tokenize properly', () => {
+      const source = fs.readFileSync(path.resolve(__dirname, '../../data/hello.lox'))
+      expect(scanTokens(source.toString())).toMatchSnapshot()
+      expect(Lox.hadError).toBe(false)
+    })
   })
 })
