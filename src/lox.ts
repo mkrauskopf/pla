@@ -32,8 +32,6 @@ export class Lox {
   }
 
   run(source: string): void {
-    console.log('%cMK: run()', 'font-weight: bold')
-    console.log(`MK:   source.length = "${source.length}"`)
     const scanner: Scanner = new Scanner(source)
     const tokens: Token[] = scanner.scanTokens()
 
@@ -53,7 +51,7 @@ export class Lox {
   }
 
   static report(line: number, where: string, message: string): void {
-    console.log(`[line ${line}] Error${where}: ${message}`)
+    console.error(`[line ${line}] Error${where}: ${message}`)
     Lox.hadError = true
   }
 }
