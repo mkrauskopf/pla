@@ -171,8 +171,32 @@ Array [
     "type": "NUMBER",
   },
   Token {
+    "lexeme": "someVariable",
+    "line": 39,
+    "literal": null,
+    "type": "IDENTIFIER",
+  },
+  Token {
+    "lexeme": "_42_glasses",
+    "line": 40,
+    "literal": null,
+    "type": "IDENTIFIER",
+  },
+  Token {
+    "lexeme": "false",
+    "line": 43,
+    "literal": null,
+    "type": "FALSE",
+  },
+  Token {
+    "lexeme": "class",
+    "line": 44,
+    "literal": null,
+    "type": "CLASS",
+  },
+  Token {
     "lexeme": "",
-    "line": 36,
+    "line": 44,
     "literal": null,
     "type": "EOF",
   },

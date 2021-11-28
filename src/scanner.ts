@@ -1,3 +1,4 @@
+import keywords from './keywords'
 import { Lox } from './lox'
 import { Token } from './token'
 import { TokenType } from './tokenType'
@@ -87,6 +88,8 @@ export class Scanner {
       default:
         if (Scanner.isDigit(c)) {
           this.number()
+        } else if (Scanner.isAlpha(c)) {
+          this.identifier()
         } else {
           Lox.error(this.line, `Unexpected character: '${c}'`)
         }
@@ -127,6 +130,14 @@ export class Scanner {
     return c >= '0' && c <= '9'
   }
 
+  private static isAlpha(c: string): boolean {
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_'
+  }
+
+  private static isAlphaNumeric(c: string): boolean {
+    return this.isDigit(c) || this.isAlpha(c)
+  }
+
   private string(): void {
     while (this.peek() !== '"' && !this.isAtEnd()) {
       if (this.peek() === '\n') {
@@ -156,5 +167,14 @@ export class Scanner {
       }
     }
     this.addToken(TokenType.NUMBER, Number(this.source.substring(this.start, this.current)))
+  }
+
+  private identifier(): void {
+    while (Scanner.isAlphaNumeric(this.peek())) {
+      this.advance()
+    }
+
+    const text = this.source.substring(this.start, this.current)
+    this.addToken(keywords[text] ?? TokenType.IDENTIFIER)
   }
 }

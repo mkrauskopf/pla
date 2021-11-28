@@ -74,6 +74,19 @@ describe('scanner', () => {
     })
   })
 
+  describe('for identifiers', () => {
+    it('should tokenize identifier', () => {
+      expect('someIdentifier').toBeTokenizedTo([new Token(TokenType.IDENTIFIER, 'someIdentifier', null, 1), EOF_1])
+    })
+  })
+
+  describe('for keyword identifiers', () => {
+    it('should tokenize identifier', () => {
+      expect('false').toBeTokenizedTo([new Token(TokenType.FALSE, 'false', null, 1), EOF_1])
+      expect('class').toBeTokenizedTo([new Token(TokenType.CLASS, 'class', null, 1), EOF_1])
+    })
+  })
+
   describe('for more complex use cases', () => {
     it('should tokenize properly', () => {
       const source = fs.readFileSync(path.resolve(__dirname, '../../data/hello.lox')).toString()
