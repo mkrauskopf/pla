@@ -85,14 +85,18 @@ export class Scanner {
         this.string()
         break
       default:
-        Lox.error(this.line, `Unexpected character: '${c}'`)
+        if (Scanner.isDigit(c)) {
+          this.number()
+        } else {
+          Lox.error(this.line, `Unexpected character: '${c}'`)
+        }
         break
     }
   }
 
-  private addToken(type: TokenType, literal: null | string = null): void {
-    const text = this.source.substring(this.start, this.current)
-    this.tokens.push(new Token(type, text, literal, this.line))
+  private addToken(type: TokenType, literal: null | string | number = null): void {
+    const lexeme = this.source.substring(this.start, this.current)
+    this.tokens.push(new Token(type, lexeme, literal, this.line))
   }
 
   private isAtEnd(): boolean {
@@ -107,12 +111,20 @@ export class Scanner {
     return this.isAtEnd() ? '\0' : this.source.charAt(this.current)
   }
 
+  private peekNext(): string {
+    return this.current + 1 >= this.source.length ? '\0' : this.source.charAt(this.current + 1)
+  }
+
   private match(expected: string): boolean {
     if (this.peek() !== expected) {
       return false
     }
     this.current++
     return true
+  }
+
+  private static isDigit(c: string): boolean {
+    return c >= '0' && c <= '9'
   }
 
   private string(): void {
@@ -130,5 +142,19 @@ export class Scanner {
 
     const value = this.source.substring(this.start + 1, this.current - 1)
     this.addToken(TokenType.STRING, value)
+  }
+
+  private number(): void {
+    while (Scanner.isDigit(this.peek())) {
+      this.advance()
+    }
+
+    if (this.peek() === '.' && Scanner.isDigit(this.peekNext())) {
+      this.advance()
+      while (Scanner.isDigit(this.peek())) {
+        this.advance()
+      }
+    }
+    this.addToken(TokenType.NUMBER, Number(this.source.substring(this.start, this.current)))
   }
 }

@@ -66,6 +66,14 @@ describe('scanner', () => {
     })
   })
 
+  describe('for number lexemes', () => {
+    it('should tokenize number', () => {
+      expect('1').toBeTokenizedTo([new Token(TokenType.NUMBER, '1', 1, 1), EOF_1])
+      expect('42').toBeTokenizedTo([new Token(TokenType.NUMBER, '42', 42, 1), EOF_1])
+      expect('42.91').toBeTokenizedTo([new Token(TokenType.NUMBER, '42.91', 42.91, 1), EOF_1])
+    })
+  })
+
   describe('for more complex use cases', () => {
     it('should tokenize properly', () => {
       const source = fs.readFileSync(path.resolve(__dirname, '../../data/hello.lox')).toString()
