@@ -2,8 +2,11 @@ import fs from 'fs'
 
 import readline from 'readline-sync'
 
+import AstPrinter from './astPrinter'
+import { Parser } from './parser'
 import { Scanner } from './scanner'
 import { Token } from './token'
+import { TokenType } from './tokenType'
 
 const args = process.argv.slice(2)
 
@@ -34,9 +37,14 @@ export class Lox {
   run(source: string): void {
     const scanner: Scanner = new Scanner(source)
     const tokens: Token[] = scanner.scanTokens()
+    const parser = new Parser(tokens)
+    const expression = parser.parse()
 
-    // TODO: temporary: remove once you get further
-    tokens.forEach((token) => console.log('token:', token))
+    if (Lox.hadError || expression === null) {
+      return
+    }
+
+    console.log(`Expr: ${new AstPrinter().print(expression)}`)
   }
 
   runPrompt(): void {
@@ -47,8 +55,16 @@ export class Lox {
     }
   }
 
-  static error(line: number, message: string): void {
+  static lineError(line: number, message: string): void {
     Lox.report(line, '', message)
+  }
+
+  static tokenError(token: Token, message: string): void {
+    if (token.type === TokenType.EOF) {
+      Lox.report(token.line, ' at end', message)
+    } else {
+      Lox.report(token.line, ` at '${token.lexeme}'`, message)
+    }
   }
 
   static report(line: number, where: string, message: string): void {

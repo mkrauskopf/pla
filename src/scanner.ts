@@ -3,7 +3,7 @@ import { Lox } from './lox'
 import { Token } from './token'
 import { TokenType } from './tokenType'
 
-export class Scanner {
+class Scanner {
   private readonly tokens: Token[] = []
   private start: number = 0
   private current: number = 0
@@ -91,7 +91,7 @@ export class Scanner {
         } else if (Scanner.isAlpha(c)) {
           this.identifier()
         } else {
-          Lox.error(this.line, `Unexpected character: '${c}'`)
+          Lox.lineError(this.line, `Unexpected character: '${c}'`)
         }
         break
     }
@@ -131,7 +131,7 @@ export class Scanner {
   }
 
   private static isAlpha(c: string): boolean {
-    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_'
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_'
   }
 
   private static isAlphaNumeric(c: string): boolean {
@@ -146,7 +146,7 @@ export class Scanner {
       this.advance()
     }
     if (this.isAtEnd()) {
-      Lox.error(this.line, 'Unterminated string.')
+      Lox.lineError(this.line, 'Unterminated string.')
       return
     }
     this.advance()
@@ -178,3 +178,5 @@ export class Scanner {
     this.addToken(keywords[text] ?? TokenType.IDENTIFIER)
   }
 }
+
+export { Scanner }
