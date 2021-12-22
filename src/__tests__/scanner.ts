@@ -5,9 +5,7 @@ import { Lox } from '../lox'
 import { Scanner } from '../scanner'
 import { Token } from '../token'
 import { TokenType } from '../tokenType'
-
-const eof = (line: number) => new Token(TokenType.EOF, '', null, line)
-const EOF_1 = eof(1)
+import { EOF_1, eof, mockConsole, numberToken } from './utils'
 
 describe('scanner', () => {
   beforeEach(() => {
@@ -52,7 +50,7 @@ describe('scanner', () => {
     })
 
     it('should handle unterminated string', () => {
-      const warn = jest.spyOn(console, 'error').mockImplementation(() => {})
+      const warn = mockConsole()
       const stringLexeme = 'Hello World'
       const multiline = `"${stringLexeme}`
       try {
@@ -68,9 +66,9 @@ describe('scanner', () => {
 
   describe('for number lexemes', () => {
     it('should tokenize number', () => {
-      expect('1').toBeTokenizedTo([new Token(TokenType.NUMBER, '1', 1, 1), EOF_1])
-      expect('42').toBeTokenizedTo([new Token(TokenType.NUMBER, '42', 42, 1), EOF_1])
-      expect('42.91').toBeTokenizedTo([new Token(TokenType.NUMBER, '42.91', 42.91, 1), EOF_1])
+      expect('1').toBeTokenizedTo([numberToken(1), EOF_1])
+      expect('42').toBeTokenizedTo([numberToken(42), EOF_1])
+      expect('42.91').toBeTokenizedTo([numberToken(42.91), EOF_1])
     })
   })
 

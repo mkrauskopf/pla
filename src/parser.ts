@@ -1,8 +1,8 @@
 import { Binary, Expr, Grouping, Literal, Unary } from './expr'
 import { Lox } from './lox'
+import { checkState } from './preconditions'
 import { Token } from './token'
 import { TokenType } from './tokenType'
-
 class Parser {
   private current: number = 0
 
@@ -44,7 +44,7 @@ class Parser {
     let expr = this.factor()
     while (this.match(TokenType.MINUS, TokenType.PLUS)) {
       const operator = this.previous()
-      const right = this.term()
+      const right = this.factor()
       expr = new Binary(expr, operator, right)
     }
     return expr
@@ -54,7 +54,7 @@ class Parser {
     let expr = this.unary()
     while (this.match(TokenType.SLASH, TokenType.STAR)) {
       const operator = this.previous()
-      const right = this.term()
+      const right = this.unary()
       expr = new Binary(expr, operator, right)
     }
     return expr
@@ -90,7 +90,7 @@ class Parser {
       return new Grouping(expr)
     }
 
-    throw this.error(this.peek(), 'Expected expression')
+    throw Parser.error(this.peek(), 'Expected expression')
   }
 
   private synchronize(): void {
@@ -126,7 +126,7 @@ class Parser {
     if (this.check(type)) {
       return this.advance()
     }
-    throw this.error(this.peek(), errorMessage)
+    throw Parser.error(this.peek(), errorMessage)
   }
 
   private check(type: TokenType): boolean {
@@ -136,6 +136,10 @@ class Parser {
   private advance(): Token {
     if (!this.isAtEnd()) {
       this.current++
+      checkState(
+        this.current < this.tokens.length,
+        `current: ${this.current}, nOfTokens: ${this.tokens.length}. Missing EOF token?`
+      )
     }
     return this.previous()
   }
@@ -152,7 +156,7 @@ class Parser {
     return this.tokens[this.current - 1]
   }
 
-  private error(token: Token, message: string): ParseError {
+  private static error(token: Token, message: string): ParseError {
     Lox.tokenError(token, message)
     return new ParseError()
   }
