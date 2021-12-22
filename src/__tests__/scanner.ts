@@ -5,7 +5,8 @@ import { Lox } from '../lox'
 import { Scanner } from '../scanner'
 import { Token } from '../token'
 import { TokenType } from '../tokenType'
-import { EOF_1, eof, mockConsole, numberToken } from './utils'
+import { EOF_1, eof, numberToken } from './tokens'
+import { mockConsole } from './utils'
 
 describe('scanner', () => {
   beforeEach(() => {
