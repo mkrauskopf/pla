@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`scanner for more complex use cases should tokenize properly 1`] = `
-Array [
+[
   Token {
     "lexeme": "(",
     "line": 7,
@@ -111,7 +111,7 @@ Array [
     "type": "GREATER_EQUAL",
   },
   Token {
-    "lexeme": "\\"Some string.\\"",
+    "lexeme": ""Some string."",
     "line": 29,
     "literal": "Some string.",
     "type": "STRING",
