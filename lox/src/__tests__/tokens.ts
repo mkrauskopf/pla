@@ -1,4 +1,4 @@
-import { Binary, Expr, Literal } from '../expr'
+import { Expr } from '../expr'
 import { Token } from '../token'
 import { TokenType } from '../tokenType'
 import * as T from '../types'
@@ -8,10 +8,11 @@ test.skip('skip', () => {})
 
 const eof = (line: number) => new Token(TokenType.EOF, '', null, line)
 const EOF_1 = eof(1)
+const semicolon = () => new Token(TokenType.SEMICOLON, ';', null, 1)
 
-const literal = (value: T.Literal) => new Literal(value)
+const literal = (value: T.Literal) => new Expr.Literal(value)
 const numberToken = (n: number) => new Token(TokenType.NUMBER, `${n}`, n, 1)
-const binary = (left: Expr, operator: Token, right: Expr) => new Binary(left, operator, right)
+const binary = (left: Expr, operator: Token, right: Expr): Expr.Binary => new Expr.Binary(left, operator, right)
 
 const bangToken = () => new Token(TokenType.BANG, '!', null, 1)
 
@@ -28,6 +29,7 @@ const lessEqualToken = () => new Token(TokenType.LESS_EQUAL, '<=', null, 1)
 export {
   eof,
   EOF_1,
+  semicolon,
   literal,
   numberToken,
   binary,

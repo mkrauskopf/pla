@@ -1,6 +1,7 @@
-import { Binary, Expr, Grouping, Literal, Unary } from './expr'
+import { Expr } from './expr'
 import { Lox } from './lox'
 import { checkState } from './preconditions'
+import { Stmt } from './stmt'
 import { Token } from './token'
 import { TokenType } from './tokenType'
 class Parser {
@@ -8,12 +9,32 @@ class Parser {
 
   constructor(readonly tokens: Readonly<Token[]>) {}
 
-  parse(): Expr | null {
-    try {
-      return this.expression()
-    } catch {
-      return null
+  parse(): Stmt[] {
+    const statements: Stmt[] = []
+    while (!this.isAtEnd()) {
+      statements.push(this.statement())
     }
+    return statements
+  }
+
+  private statement(): Stmt {
+    if (this.match(TokenType.PRINT)) {
+      return this.printStatement()
+    } else {
+      return this.expressionStatement()
+    }
+  }
+
+  private printStatement(): Stmt {
+    const expr = this.expression()
+    this.consume(TokenType.SEMICOLON, "Expect ';' after value.")
+    return new Stmt.Print(expr)
+  }
+
+  private expressionStatement(): Stmt {
+    const expr = this.expression()
+    this.consume(TokenType.SEMICOLON, "Expect ';' after expression.")
+    return new Stmt.Expression(expr)
   }
 
   private expression(): Expr {
@@ -25,7 +46,7 @@ class Parser {
     while (this.match(TokenType.BANG_EQUAL, TokenType.EQUAL_EQUAL)) {
       const operator = this.previous()
       const right = this.comparison()
-      expr = new Binary(expr, operator, right)
+      expr = new Expr.Binary(expr, operator, right)
     }
     return expr
   }
@@ -35,7 +56,7 @@ class Parser {
     while (this.match(TokenType.GREATER, TokenType.GREATER_EQUAL, TokenType.LESS, TokenType.LESS_EQUAL)) {
       const operator = this.previous()
       const right = this.term()
-      expr = new Binary(expr, operator, right)
+      expr = new Expr.Binary(expr, operator, right)
     }
     return expr
   }
@@ -45,7 +66,7 @@ class Parser {
     while (this.match(TokenType.MINUS, TokenType.PLUS)) {
       const operator = this.previous()
       const right = this.factor()
-      expr = new Binary(expr, operator, right)
+      expr = new Expr.Binary(expr, operator, right)
     }
     return expr
   }
@@ -55,7 +76,7 @@ class Parser {
     while (this.match(TokenType.SLASH, TokenType.STAR)) {
       const operator = this.previous()
       const right = this.unary()
-      expr = new Binary(expr, operator, right)
+      expr = new Expr.Binary(expr, operator, right)
     }
     return expr
   }
@@ -64,30 +85,30 @@ class Parser {
     if (this.match(TokenType.BANG, TokenType.MINUS)) {
       const operator = this.previous()
       const right = this.unary()
-      return new Unary(operator, right)
+      return new Expr.Unary(operator, right)
     }
     return this.primary()
   }
 
   private primary(): Expr {
     if (this.match(TokenType.FALSE)) {
-      return new Literal(false)
+      return new Expr.Literal(false)
     }
     if (this.match(TokenType.TRUE)) {
-      return new Literal(true)
+      return new Expr.Literal(true)
     }
     if (this.match(TokenType.NIL)) {
-      return new Literal(null)
+      return new Expr.Literal(null)
     }
 
     if (this.match(TokenType.NUMBER, TokenType.STRING)) {
-      return new Literal(this.previous().literal)
+      return new Expr.Literal(this.previous().literal)
     }
 
     if (this.match(TokenType.LEFT_PAREN)) {
       const expr = this.expression()
       this.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression")
-      return new Grouping(expr)
+      return new Expr.Grouping(expr)
     }
 
     throw Parser.error(this.peek(), 'Expected expression')

@@ -1,11 +1,37 @@
-import { Binary, Expr, Grouping, Literal, Unary, Visitor } from './expr'
+import { Expr } from './expr'
+import { Lox } from './lox'
+import { Stmt } from './stmt'
 import { TokenType } from './tokenType'
 import type * as T from './types'
 
 type LoxValue = Readonly<T.Literal | null>
 
-class Interpreter implements Visitor<LoxValue> {
-  visitBinaryExpr(binary: Binary): LoxValue {
+class Interpreter implements Expr.Visitor<LoxValue>, Stmt.Visitor {
+  interpret(statements: Stmt[]): void {
+    try {
+      statements.forEach((statement) => {
+        this.execute(statement)
+      })
+    } catch (error) {
+      Lox.hadError = true
+      console.log('MK: error\n', error)
+    }
+  }
+
+  execute(statement: Stmt) {
+    statement.accept(this)
+  }
+
+  visitExpressionStatement(stmt: Stmt.Expression): void {
+    this.evaluate(stmt.expression)
+  }
+
+  visitPrintStatement(stmt: Stmt.Print): void {
+    const value = this.evaluate(stmt.expression)
+    console.log(value)
+  }
+
+  visitBinaryExpr(binary: Expr.Binary): LoxValue {
     const left = this.evaluate(binary.left)
     const right = this.evaluate(binary.right)
 
@@ -42,15 +68,15 @@ class Interpreter implements Visitor<LoxValue> {
     return null
   }
 
-  visitGroupingExpr(grouping: Grouping): LoxValue {
+  visitGroupingExpr(grouping: Expr.Grouping): LoxValue {
     return this.evaluate(grouping.expr)
   }
 
-  visitLiteralExpr(literal: Literal): LoxValue {
+  visitLiteralExpr(literal: Expr.Literal): LoxValue {
     return literal.value
   }
 
-  visitUnaryExpr(unary: Unary): LoxValue {
+  visitUnaryExpr(unary: Expr.Unary): LoxValue {
     const right = this.evaluate(unary.right)
 
     switch (unary.operator.type) {

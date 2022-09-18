@@ -5,6 +5,7 @@ import readline from 'readline-sync'
 import AstPrinter from './astPrinter'
 import { Parser } from './parser'
 import { Scanner } from './scanner'
+import { Stmt } from './stmt'
 import { Token } from './token'
 import { TokenType } from './tokenType'
 
@@ -38,13 +39,13 @@ export class Lox {
     const scanner: Scanner = new Scanner(source)
     const tokens: Token[] = scanner.scanTokens()
     const parser = new Parser(tokens)
-    const expression = parser.parse()
+    const statements: Stmt[] = parser.parse()
 
-    if (Lox.hadError || expression === null) {
+    if (Lox.hadError || statements === null) {
       return
     }
 
-    console.log(`Expr: ${new AstPrinter().print(expression)}`)
+    console.log(`Expr: ${new AstPrinter().print(statements)}`)
   }
 
   runPrompt(): void {
