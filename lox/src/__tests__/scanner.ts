@@ -3,10 +3,10 @@ import path from 'path'
 
 import { Lox } from '../lox'
 import { Scanner } from '../scanner'
+import { EOF_1, eof, numberToken } from '../test-support/tokens'
+import { mockConsole } from '../test-support/utils'
 import { Token } from '../token'
 import { TokenType } from '../tokenType'
-import { EOF_1, eof, numberToken } from './tokens'
-import { mockConsole } from './utils'
 
 describe('scanner', () => {
   beforeEach(() => {

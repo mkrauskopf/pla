@@ -1,8 +1,8 @@
 import { Lox } from '../lox'
 import { Parser } from '../parser'
+import { EOF_1, binary, literal, minusToken, numberToken, slashToken } from '../test-support/tokens'
+import { mockConsole } from '../test-support/utils'
 import { Token } from '../token'
-import { EOF_1, binary, literal, minusToken, numberToken, slashToken } from './tokens'
-import { mockConsole } from './utils'
 
 describe('Parser', () => {
   it('should parse empty content', () => {

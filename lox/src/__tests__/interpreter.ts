@@ -1,6 +1,5 @@
 import { Expr, Grouping, Unary } from '../expr'
 import Interpreter, { LoxValue } from '../interpreter'
-import * as T from '../types'
 import {
   bangToken,
   binary,
@@ -13,7 +12,8 @@ import {
   plusToken,
   slashToken,
   starToken,
-} from './tokens'
+} from '../test-support/tokens'
+import * as T from '../types'
 
 const l8 = literal(8)
 const l2 = literal(2)

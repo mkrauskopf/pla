@@ -1,6 +1,6 @@
 import AstPrinter from '../astPrinter'
 import { Expr, Grouping, Unary } from '../expr'
-import { binary, literal, minusToken, starToken } from './tokens'
+import { binary, literal, minusToken, starToken } from '../test-support/tokens'
 
 describe('AstPrinter', () => {
   describe('print', () => {

@@ -11,7 +11,7 @@ import { TokenType } from './tokenType'
 const args = process.argv.slice(2)
 
 export class Lox {
-  static hadError: boolean = false
+  static hadError = false
 
   runProgram(): void {
     if (args.length > 1) {
@@ -27,8 +27,8 @@ export class Lox {
 
   runFile(path: string): void {
     console.info(`Running file: ${path}`)
-    const source = fs.readFileSync(path)
-    this.run(source as any)
+    const buffer = fs.readFileSync(path)
+    this.run(buffer.toString())
     if (Lox.hadError) {
       process.exit(65)
     }
@@ -48,8 +48,9 @@ export class Lox {
   }
 
   runPrompt(): void {
+    // eslint-disable-next-line no-constant-condition
     while (true) {
-      const line = readline.prompt('> ' as any)
+      const line = readline.prompt({ prompt: '> ' })
       this.run(line)
       Lox.hadError = false
     }

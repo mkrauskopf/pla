@@ -3,9 +3,6 @@ import { Token } from '../token'
 import { TokenType } from '../tokenType'
 import * as T from '../types'
 
-// Prevent Jest complaining.
-test.skip('skip', () => {})
-
 const eof = (line: number) => new Token(TokenType.EOF, '', null, line)
 const EOF_1 = eof(1)
 

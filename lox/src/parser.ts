@@ -4,7 +4,7 @@ import { checkState } from './preconditions'
 import { Token } from './token'
 import { TokenType } from './tokenType'
 class Parser {
-  private current: number = 0
+  private current = 0
 
   constructor(readonly tokens: Readonly<Token[]>) {}
 
