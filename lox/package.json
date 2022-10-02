@@ -1,16 +1,16 @@
 {
-  "name": "lox",
+  "name": "pla_lox",
   "version": "0.0.1",
-  "description": "",
+  "description": "Implementation of Lox in TypeScript.",
   "license": "MIT",
   "author": "",
-  "homepage": "https://github.com/mkrauskopf/lox#readme",
+  "homepage": "https://github.com/mkrauskopf/pla/lox#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mkrauskopf/lox.git"
+    "url": "git+https://github.com/mkrauskopf/pla.git"
   },
   "bugs": {
-    "url": "https://github.com/mkrauskopf/lox/issues"
+    "url": "https://github.com/mkrauskopf/pla/issues"
   },
   "scripts": {
     "build": "tsc",
