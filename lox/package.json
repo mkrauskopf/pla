@@ -4,7 +4,7 @@
   "description": "Implementation of Lox in TypeScript.",
   "license": "MIT",
   "author": "",
-  "homepage": "https://github.com/mkrauskopf/pla/lox#readme",
+  "homepage": "https://github.com/mkrauskopf/pla/blob/main/lox/README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mkrauskopf/pla.git"

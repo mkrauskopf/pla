@@ -31,7 +31,7 @@ function parseComputation(tokens: Token[], index: number) {
   const rightOperand = checkNumberToken(nextToken(tokens, index++))
 
   if (tokens.length != index) {
-    throw new ParserError(`Unexpected token ${tokenAsString(tokens[index]!)}. Expecting end of expression`)
+    throw new ParserError(`Unexpected token ${tokenAsString(tokens[index] as Token)}. Expecting end of expression`)
   }
 
   return { leftOperand, operator, rightOperand }
@@ -53,7 +53,7 @@ function checkOperatorToken(token: Token): OperatorToken {
 
 function nextToken(tokens: Token[], index: number): Token {
   if (index < tokens.length) {
-    return tokens[index]!
+    return tokens[index] as Token
   }
   throw new ParserError('Unexpected end of line')
 }
