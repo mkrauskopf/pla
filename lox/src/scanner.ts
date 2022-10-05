@@ -2,6 +2,7 @@ import keywords from './keywords'
 import { Lox } from './lox'
 import { Token } from './token'
 import { TokenType } from './tokenType'
+import * as T from './types'
 
 class Scanner {
   private readonly tokens: Token[] = []
@@ -97,7 +98,7 @@ class Scanner {
     }
   }
 
-  private addToken(type: TokenType, literal: null | string | number = null): void {
+  private addToken(type: TokenType, literal: T.Literal = null): void {
     const lexeme = this.source.substring(this.start, this.current)
     this.tokens.push(new Token(type, lexeme, literal, this.line))
   }
