@@ -1,6 +1,6 @@
 import { NumberToken, OperatorToken, TokenType } from '../scanner'
 
-const number = (n: number): NumberToken => ({ type: TokenType.Number, lexem: `${n}` })
+const number = (n: number): NumberToken => ({ type: TokenType.Number, literal: n })
 const plus = (): OperatorToken => ({ type: TokenType.Plus })
 const minus = (): OperatorToken => ({ type: TokenType.Minus })
 const multiply = (): OperatorToken => ({ type: TokenType.Multiply })

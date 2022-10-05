@@ -12,7 +12,7 @@ enum TokenType {
 
 type OperatorTokenType = TokenType.Plus | TokenType.Minus | TokenType.Multiply | TokenType.Divide
 
-type NumberToken = { type: TokenType.Number; lexem: string }
+type NumberToken = { type: TokenType.Number; literal: number }
 type OperatorToken = { type: OperatorTokenType }
 
 type Token = NumberToken | OperatorToken
@@ -21,10 +21,10 @@ function scanTokens(source: string): Token[] {
   if (source.trim() === '') {
     throw new ScannerError('Cannot evaluate empty expression')
   }
-  const lexems = source.split(/ +/)
-  return lexems.map((lexem): Token => {
+  const lexemes = source.split(/ +/)
+  return lexemes.map((lexeme): Token => {
     // try operator
-    switch (lexem) {
+    switch (lexeme) {
       case '+':
         return { type: TokenType.Plus }
       case '-':
@@ -36,11 +36,12 @@ function scanTokens(source: string): Token[] {
     }
 
     // try number
-    if (!Number.isNaN(Number(lexem))) {
-      return { type: TokenType.Number, lexem }
+    const literal = Number(lexeme)
+    if (!Number.isNaN(literal)) {
+      return { type: TokenType.Number, literal }
     }
 
-    throw new ScannerError(`Unknown symbol: ${lexem}`)
+    throw new ScannerError(`Unknown symbol: ${lexeme}`)
   })
 }
 
@@ -52,7 +53,7 @@ function tokenAsString(token: Token) {
   if (isOperatorToken(token)) {
     return `type: ${token.type}`
   } else {
-    return `type: ${token.type}(${token.lexem})`
+    return `type: ${token.type}(${token.literal})`
   }
 }
 

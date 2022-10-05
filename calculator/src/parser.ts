@@ -48,7 +48,7 @@ function checkOperatorToken(token: Token): OperatorToken {
   if (isOperatorToken(token)) {
     return token
   }
-  throw new ParserError(`Expected operator. Got number: ${token.lexem}`)
+  throw new ParserError(`Expected operator. Got number: ${token.literal}`)
 }
 
 function nextToken(tokens: Token[], index: number): Token {

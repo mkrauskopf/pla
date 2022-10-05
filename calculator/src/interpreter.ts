@@ -1,23 +1,23 @@
 import { Expression, NumberExpression, parse } from './parser'
 import { TokenType, scanTokens } from './scanner'
 
-function evaluate(expression: string): string {
+function evaluate(expression: string): number {
   const ast = parse(scanTokens(expression))
   if (isNumberExpression(ast)) {
-    return ast.number.lexem
+    return ast.number.literal
   } else {
     // is ComputationExpression
-    const left = Number(ast.leftOperand.lexem)
-    const right = Number(ast.rightOperand.lexem)
+    const left = Number(ast.leftOperand.literal)
+    const right = Number(ast.rightOperand.literal)
     switch (ast.operator.type) {
       case TokenType.Plus:
-        return String(left + right)
+        return left + right
       case TokenType.Minus:
-        return String(left - right)
+        return left - right
       case TokenType.Multiply:
-        return String(left * right)
+        return left * right
       case TokenType.Divide:
-        return String(left / right)
+        return left / right
     }
   }
 }
