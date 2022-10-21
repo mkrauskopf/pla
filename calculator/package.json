@@ -4,6 +4,14 @@
   "description": "Fundamentals of PL theory and who knows what.",
   "license": "MIT",
   "author": "Martin Krauskopf <martin.krauskopf@gmail.com>",
+  "homepage": "https://github.com/mkrauskopf/pla/tree/main/calculator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkrauskopf/pla.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mkrauskopf/pla/issues"
+  },
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
