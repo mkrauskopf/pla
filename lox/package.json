@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "Implementation of Lox in TypeScript.",
   "license": "MIT",
-  "author": "",
-  "homepage": "https://github.com/mkrauskopf/pla/blob/main/lox/README.md",
+  "author": "Martin Krauskopf <martin.krauskopf@gmail.com>",
+  "homepage": "https://github.com/mkrauskopf/pla/tree/main/lox",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mkrauskopf/pla.git"
